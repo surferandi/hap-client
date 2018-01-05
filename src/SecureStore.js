@@ -2,48 +2,58 @@ import { Observable } from 'rxjs';
 
 const debug = require('debug')('hap-client:securestore');
 
-let storedJson = '';
-let storedUser = '';
+const keytarStore = {};
+
+const Keytar = {
+  getPassword: (service, account) => {
+    let password = keytarStore[`${service}/${account}`];
+    if (!password) password = '';
+    return Promise.resolve(password);
+  },
+
+  setPassword: (service, account, password) => {
+    keytarStore[`${service}/${account}`] = password;
+    return Promise.resolve(password);
+  }
+};
 
 function loadClient(clientName) {
     return Observable
         .defer(
-            () => Observable.of(storedJson)
-                /*Keytar
-                    .getPassword(clientName, 'clientInfo')*/
+            () => Keytar
+                    .getPassword(clientName, 'clientInfo')
         )
         .map(
-            json =>
-                new SecureClientInfo(clientName, json)
+            json => {
+                debug('retrieved json: ' + json);
+                return new SecureClientInfo(clientName, json);
+            }
         )
 }
 
 function saveClient(self) {
   debug('saveClient(' + JSON.stringify(self) + ')');
-  return new Promise( (resolve, reject) => {
-    storedJson = JSON.stringify(self);
-    resolve(self)
-  });
-    /* Keytar
+    Keytar
         .setPassword(
             self._clientName,
             'clientInfo',
             JSON.stringify(self)
         )
-    .then(() => self); */
+    .then(() => self);
 }
 
 function load(clientName, username) {
     debug(`loading for ${clientName}/${username}`);
     return Observable
-        .of(storedUser)
-        /*.from(
+        .from(
             Keytar
                 .getPassword(clientName, username)
-        )*/
+        )
         .map(
-            json =>
-                new SecureAccessoryInfo(clientName, username, json)
+            json => {
+              debug('retrieved json: ' + json);
+              return new SecureAccessoryInfo(clientName, username, json);
+            }
         )
         ;
 }
@@ -51,17 +61,13 @@ function load(clientName, username) {
 function save(self) {
     debug(`saving for ${self._clientName}/${self.user}`);
     debug(`${JSON.stringify(self)}`);
-    return new Promise( (resolve, reject) => {
-      storedUser = JSON.stringify(self);
-      resolve(self)
-    });
-    /*return Keytar
+    return Keytar
         .setPassword(
             self._clientName,
             self.user,
             JSON.stringify(self)
         )
-        .then(() => self);*/
+        .then(() => self);
 }
 
 class SecureAccessoryInfo
