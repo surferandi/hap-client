@@ -39,7 +39,7 @@ function loadClient(clientName) {
 
 function saveClient(self) {
   debug('saveClient(' + JSON.stringify(self) + ')');
-    Keytar
+  return Keytar
         .setPassword(
             self._clientName,
             'clientInfo',
