@@ -6,6 +6,7 @@ const keytarStore = {};
 
 const Keytar = {
   getPassword: (service, account) => {
+    debug('keytarStore get: ' + JSON.stringify(keytarStore));
     let password = keytarStore[`${service}/${account}`];
     if (!password) password = '';
     return Promise.resolve(password);
@@ -13,6 +14,7 @@ const Keytar = {
 
   setPassword: (service, account, password) => {
     keytarStore[`${service}/${account}`] = password;
+    debug('keytarStore set: ' + JSON.stringify(keytarStore));
     return Promise.resolve(password);
   }
 };
