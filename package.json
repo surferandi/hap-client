@@ -24,15 +24,6 @@
   "author": "Zach Bean <zb@forty2.com>",
   "license": "MIT",
   "devDependencies": {
-    "babel-cli": "^6.24.1",
-    "babel-core": "^6.14.0",
-    "babel-plugin-syntax-function-bind": "^6.13.0",
-    "babel-plugin-transform-function-bind": "^6.8.0",
-    "babel-plugin-transform-object-rest-spread": "^6.8.0",
-    "babel-preset-env": "^1.4.0",
-    "debug": "^2.6.4",
-    "mocha": "^3.3.0",
-    "simple-plist": "^0.2.1"
   },
   "babel": {
     "sourceMaps": "inline",
@@ -60,6 +51,16 @@
   },
   "homepage": "https://github.com/forty2/hap-client#readme",
   "dependencies": {
+    "babel-cli": "^6.24.1",
+    "babel-core": "^6.14.0",
+    "babel-plugin-syntax-function-bind": "^6.13.0",
+    "babel-plugin-transform-function-bind": "^6.8.0",
+    "babel-plugin-transform-object-rest-spread": "^6.8.0",
+    "babel-preset-env": "^1.4.0",
+    "debug": "^2.6.4",
+    "mocha": "^3.3.0",
+    "simple-plist": "^0.2.1",
+
     "buffer-reader": "^0.1.0",
     "enum": "^2.4.0",
     "fast-srp-hap": "^1.0.1",
