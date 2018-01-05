@@ -1,14 +1,13 @@
 import { Observable } from 'rxjs';
-import Keytar from 'keytar';
 
 const debug = require('debug')('hap-client:securestore');
 
 function loadClient(clientName) {
     return Observable
         .defer(
-            () =>
-                Keytar
-                    .getPassword(clientName, 'clientInfo')
+            () => Observable.of(null)
+                /*Keytar
+                    .getPassword(clientName, 'clientInfo')*/
         )
         .map(
             json =>
@@ -17,22 +16,25 @@ function loadClient(clientName) {
 }
 
 function saveClient(self) {
-    return Keytar
+  debug('saveClient(' + JSON.stringify(self) + ')');
+  return new Promise( (resolve, reject) => resolve(self) );
+    /* Keytar
         .setPassword(
             self._clientName,
             'clientInfo',
             JSON.stringify(self)
         )
-    .then(() => self);
+    .then(() => self); */
 }
 
 function load(clientName, username) {
     debug(`loading for ${clientName}/${username}`);
     return Observable
-        .from(
+        .of(null)
+        /*.from(
             Keytar
                 .getPassword(clientName, username)
-        )
+        )*/
         .map(
             json =>
                 new SecureAccessoryInfo(clientName, username, json)
@@ -43,13 +45,14 @@ function load(clientName, username) {
 function save(self) {
     debug(`saving for ${self._clientName}/${self.user}`);
     debug(`${JSON.stringify(self)}`);
-    return Keytar
+    return new Promise( (resolve, reject) => resolve(self) );
+    /*return Keytar
         .setPassword(
             self._clientName,
             self.user,
             JSON.stringify(self)
         )
-        .then(() => self);
+        .then(() => self);*/
 }
 
 class SecureAccessoryInfo
