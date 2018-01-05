@@ -2,10 +2,13 @@ import { Observable } from 'rxjs';
 
 const debug = require('debug')('hap-client:securestore');
 
+let storedJson = '';
+let storedUser = '';
+
 function loadClient(clientName) {
     return Observable
         .defer(
-            () => Observable.of('')
+            () => Observable.of(storedJson)
                 /*Keytar
                     .getPassword(clientName, 'clientInfo')*/
         )
@@ -17,7 +20,10 @@ function loadClient(clientName) {
 
 function saveClient(self) {
   debug('saveClient(' + JSON.stringify(self) + ')');
-  return new Promise( (resolve, reject) => resolve(self) );
+  return new Promise( (resolve, reject) => {
+    storedJson = JSON.stringify(self);
+    resolve(self)
+  });
     /* Keytar
         .setPassword(
             self._clientName,
@@ -30,7 +36,7 @@ function saveClient(self) {
 function load(clientName, username) {
     debug(`loading for ${clientName}/${username}`);
     return Observable
-        .of('')
+        .of(storedUser)
         /*.from(
             Keytar
                 .getPassword(clientName, username)
@@ -45,7 +51,10 @@ function load(clientName, username) {
 function save(self) {
     debug(`saving for ${self._clientName}/${self.user}`);
     debug(`${JSON.stringify(self)}`);
-    return new Promise( (resolve, reject) => resolve(self) );
+    return new Promise( (resolve, reject) => {
+      storedUser = JSON.stringify(self);
+      resolve(self)
+    });
     /*return Keytar
         .setPassword(
             self._clientName,
