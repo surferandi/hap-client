@@ -5,7 +5,7 @@
   "main": "dist/HapClient.js",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/forty2/hap-client.git"
+    "url": "git+https://github.com/surferandi/hap-client.git"
   },
   "keywords": [
     "homekit",
