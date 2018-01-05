@@ -5,7 +5,7 @@ const debug = require('debug')('hap-client:securestore');
 function loadClient(clientName) {
     return Observable
         .defer(
-            () => Observable.of({})
+            () => Observable.of('')
                 /*Keytar
                     .getPassword(clientName, 'clientInfo')*/
         )
@@ -30,7 +30,7 @@ function saveClient(self) {
 function load(clientName, username) {
     debug(`loading for ${clientName}/${username}`);
     return Observable
-        .of({})
+        .of('')
         /*.from(
             Keytar
                 .getPassword(clientName, username)
