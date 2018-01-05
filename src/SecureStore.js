@@ -2,17 +2,17 @@ import { Observable } from 'rxjs';
 
 const debug = require('debug')('hap-client:securestore');
 
-const keytarStore = {};
+let keytarStore = {};
 
 const Keytar = {
-  getPassword: (service, account) => {
+  getPassword: function(service, account) {
     debug('keytarStore get: ' + JSON.stringify(keytarStore));
     let password = keytarStore[`${service}/${account}`];
     if (!password) password = '';
     return Promise.resolve(password);
   },
 
-  setPassword: (service, account, password) => {
+  setPassword: function(service, account, password) {
     keytarStore[`${service}/${account}`] = password;
     debug('keytarStore set: ' + JSON.stringify(keytarStore));
     return Promise.resolve(password);
@@ -22,8 +22,12 @@ const Keytar = {
 function loadClient(clientName) {
     return Observable
         .defer(
-            () => Keytar
-                    .getPassword(clientName, 'clientInfo')
+            () => {
+                debug('before calling getPassword');
+                const res = Keytar.getPassword(clientName, 'clientInfo');
+                debug('after calling getPassword');
+                return res;
+              }
         )
         .map(
             json => {
