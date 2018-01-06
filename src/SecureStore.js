@@ -1,5 +1,5 @@
 import { Observable } from 'rxjs';
-import Keytar from 'keytar';
+import Keytar from './KeytarDummy';
 
 const debug = require('debug')('hap-client:securestore');
 
